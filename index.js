@@ -5,10 +5,13 @@ function waterfall(){
   var functionList = arguments[arguments.length - 1];
   var errorHandler = arguments[arguments.length - 2];
   var args = Array.prototype.slice.call(arguments);
+  var req = args[0];
+  var res = args[1];
   var cb = function(){
-    if (arguments[0]) return errorHandler(arguments[0]);
+    if (arguments[0]) return errorHandler(arguments[0], res);
     position++;
     var args = Array.prototype.slice.call(arguments);
+    args.shift();
     args.push(cb);
     functionList[position].apply(functionList[position], args);
   }
