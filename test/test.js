@@ -1,5 +1,5 @@
 var assert = require('assert');
-var controlFlow = require('./index.js');
+var controlFlow = require('../index.js');
 
 function requestHandler(req, res, cb){
   cb(null, {});
@@ -24,6 +24,7 @@ function middle3(payload, cb){
 
 var fakeReq = {headers:{}, body:{foo:'bar'}};
 var fakeRes = {};
+var fakeErrorHandler = function(){};
 
 describe('waterfall with request handler', function(){
   //var waterfall = controlFlow.waterfall({requestHandler:true});
@@ -33,7 +34,7 @@ describe('waterfall with request handler', function(){
       assert.equal(typeof payload, 'object');
       done();
     }
-    var testFlow = waterfall(fakeReq, fakeRes, [
+    var testFlow = waterfall(fakeReq, fakeRes, fakeErrorHandler, [
         requestHandler
       , middle1
       , middle2
@@ -47,7 +48,7 @@ describe('waterfall with request handler', function(){
       assert.equal(typeof cb, 'function');
       done();
     }
-    var testFlow = waterfall(fakeReq, fakeRes, [
+    var testFlow = waterfall(fakeReq, fakeRes, fakeErrorHandler, [
         requestHandler
       , middle1
       , middle2
@@ -63,7 +64,7 @@ describe('waterfall with request handler', function(){
       assert.equal(payload.middle3, true);
       done();
     }
-    var testFlow = waterfall(fakeReq, fakeRes, [
+    var testFlow = waterfall(fakeReq, fakeRes, fakeErrorHandler, [
         requestHandler
       , middle1
       , middle2
