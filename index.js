@@ -23,4 +23,4 @@ function waterfall(){
 
 module.exports = {
   waterfall : waterfall
-}
+};
